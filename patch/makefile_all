@@ -1,0 +1,115 @@
+CURDIR				:=	$(shell pwd)
+export LIBIOR4		:=	$(CURDIR)/libior4
+export LIBIORPG		:=	$(CURDIR)/libiorpg
+export LIBIOR4IDSN		:=	$(CURDIR)/libior4idsn
+export LIBELM  		:=	$(CURDIR)/libelm
+export LIBUNDS       	:=     $(CURDIR)/libunds
+RELEASE				:=	akmenu_3in1
+
+all: dldi akmenu4 fonts
+	mkdir $(RELEASE)
+	cp akmenu4/akmenu4.nds $(RELEASE)/
+	mkdir $(RELEASE)/__rpg
+	mkdir $(RELEASE)/__rpg/fonts
+	cp fonts/*.pcf $(RELEASE)/__rpg/fonts
+	cp -r ui $(RELEASE)/__rpg/
+	cp -r language $(RELEASE)/__rpg/
+	cp dldi/rpg_nand/rpg_nand.dldi $(RELEASE)/__rpg/
+	cp dldi/rpg_sd/rpg_sd.dldi $(RELEASE)/__rpg/
+	@echo "[system]" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "fontHeight = 12" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "brightness = 0" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "langDirectory = English" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "uiName = zelda" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "fileListType = 0" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "romTrim = 0" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "showHiddenFiles = 0" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "enterLastDirWhenBoot = 1" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "saveext = .sav" >> $(RELEASE)/__rpg/globalsettings.ini
+	@echo "[Save Info]" >> $(RELEASE)/__rpg/LASTSAVE.INI
+	@echo "lastLoaded=****" >> $(RELEASE)/__rpg/LASTSAVE.INI
+	@echo "lastSaveType=0" >> $(RELEASE)/__rpg/LASTSAVE.INI
+	tar --exclude=\.svn -czf $(RELEASE).tar.gz $(RELEASE)
+	rm -rf $(RELEASE)
+
+clean:
+	cd libiorpg && $(MAKE) clean
+	cd libior4 && $(MAKE) clean
+	cd libior4idsn && $(MAKE) clean
+	cd dldi/rpg_nand && $(MAKE) clean
+	cd dldi/rpg_sd && $(MAKE) clean
+	cd dldi/r4_sd && $(MAKE) clean
+	cd dldi/r4idsn_sd && $(MAKE) clean
+	cd libelm && $(MAKE) clean
+	cd libunds && $(MAKE) clean
+	cd akloader && $(MAKE) clean
+	cd akmenu4 && $(MAKE) clean
+	rm -f fonts/*.pcf
+	rm -rf $(RELEASE)
+	rm -f $(RELEASE).tar.gz
+
+akloader/akloader_rpg.nds: libiorpg libelm libunds
+	cd akloader && $(MAKE) akloader_rpg.nds
+
+akloader/akloader_r4.nds: libior4 libelm libunds
+	cd akloader && $(MAKE) akloader_r4.nds
+
+akloader/akloader_r4idsn.nds: libior4idsn libelm libunds
+	cd akloader && $(MAKE) akloader_r4idsn.nds
+
+akmenu4: akmenu4/akmenu4.nds akmenu4/_DS_MENU.DAT akmenu4/_DSMENU.DAT
+
+akmenu4/akmenu4.nds : libiorpg libelm libunds
+	cd akmenu4 && $(MAKE) akmenu4.nds
+
+akmenu4/_DS_MENU.DAT : libior4 libelm libunds
+	cd akmenu4 && $(MAKE) _DS_MENU.DAT
+
+akmenu4/_DSMENU.DAT : libior4idsn libelm libunds
+	cd akmenu4 && $(MAKE) _DSMENU.DAT
+
+dldi: dldi/rpg_nand/rpg_nand.dldi dldi/rpg_sd/rpg_sd.dldi dldi/r4_sd/r4_sd.dldi  dldi/r4idsn_sd/r4idsn_sd.dldi
+
+dldi/rpg_nand/rpg_nand.dldi:
+	cd dldi/rpg_nand && $(MAKE)
+
+dldi/rpg_sd/rpg_sd.dldi:
+	cd dldi/rpg_sd && $(MAKE)
+
+dldi/r4_sd/r4_sd.dldi:
+	cd dldi/r4_sd && $(MAKE)
+
+dldi/r4idsn_sd/r4idsn_sd.dldi:
+	cd dldi/r4idsn_sd && $(MAKE)
+
+libelm: libelm/lib/libelm.a
+
+libelm/lib/libelm.a:
+	cd libelm && $(MAKE)
+
+libunds: libunds/lib/libunds7.a libunds/lib/libunds9.a
+
+libunds/lib/libunds7.a libunds/lib/libunds9.a:
+	cd libunds && $(MAKE)
+
+libiorpg: libiorpg/lib/libiorpg.a
+
+libiorpg/lib/libiorpg.a:
+	cd libiorpg && $(MAKE)
+
+libior4: libior4/lib/libior4.a
+
+libior4/lib/libior4.a:
+	cd libior4 && $(MAKE)
+
+libior4idsn: libior4idsn/lib/libior4idsn.a
+
+libior4idsn/lib/libior4idsn.a:
+	cd libior4idsn && $(MAKE)
+
+fonts: fonts/tahoma.pcf
+
+fonts/tahoma.pcf:
+	cd fonts && $(MAKE)
+
+.PHONY: akmenu4 dldi libelm libiorpg libior4 libior4idsn fonts

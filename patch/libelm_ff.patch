@@ -1,0 +1,28 @@
+*** woodrpg/libelm/source/ff.c	Thu Jul  1 03:07:03 2010
+--- patch/ff.c.zzzzzzzzzzzzzzzzzzzzzzzzzzz	Thu Jul  1 02:17:34 2010
+***************
+*** 1847,1851 ****
+  			if (c == NDDE) c = (TCHAR)DDE;
+  			if (_USE_LFN && (nt & NS_BODY) && IsUpper(c)) c += 0x20;
+! #if _LFN_UNICODE
+  			if (IsDBCS1(c) && i < 7 && IsDBCS2(dir[i+1]))
+  				c = (c << 8) | dir[++i];
+--- 1847,1851 ----
+  			if (c == NDDE) c = (TCHAR)DDE;
+  			if (_USE_LFN && (nt & NS_BODY) && IsUpper(c)) c += 0x20;
+! #if 0
+  			if (IsDBCS1(c) && i < 7 && IsDBCS2(dir[i+1]))
+  				c = (c << 8) | dir[++i];
+***************
+*** 1861,1865 ****
+  				if (c == ' ') break;
+  				if (_USE_LFN && (nt & NS_EXT) && IsUpper(c)) c += 0x20;
+! #if _LFN_UNICODE
+  				if (IsDBCS1(c) && i < 10 && IsDBCS2(dir[i+1]))
+  					c = (c << 8) | dir[++i];
+--- 1861,1865 ----
+  				if (c == ' ') break;
+  				if (_USE_LFN && (nt & NS_EXT) && IsUpper(c)) c += 0x20;
+! #if 0
+  				if (IsDBCS1(c) && i < 10 && IsDBCS2(dir[i+1]))
+  					c = (c << 8) | dir[++i];
