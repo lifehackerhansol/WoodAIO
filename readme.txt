@@ -231,3 +231,6 @@ Unfortunately 1.52 isn't working anymore.
 Updated ak2loader.nds and added r2 loader.
 r1 is derived from R4i3D 2012 1.49, which uses extinfo.dat.
 r2 is derived from R4i3D 2012 1.50, which uses mixinfo.dat.
+
+continue by lifehackerhansol:
+r4liloader.nds 1.62 (ACE3DS)
