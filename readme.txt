@@ -234,3 +234,4 @@ r2 is derived from R4i3D 2012 1.50, which uses mixinfo.dat.
 
 continue by lifehackerhansol:
 r4liloader.nds 1.62 (ACE3DS)
+ak2loader replaced with BL2CK loader

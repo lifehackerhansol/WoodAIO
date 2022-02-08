@@ -29,13 +29,13 @@ rm -f akmenu4/arm9/data/r4/*.bin
 rm -f akmenu4/arm9/data/rpg/*.bin
 rm -f akmenu4/arm9/data/r4idsn/*.bin
 
-#: <<"#BUILD_WOODRPG_BASE"
+: <<"#BUILD_WOODRPG_BASE"
 echo Building WoodRPG base structure...
 cp -f ../patch/libunds_dldi_stub.s libunds/source/arm9/dldi/dldi_stub.s
 make dldi fonts akmenu4/akmenu4.nds >/dev/null
 
-mkdir ../build/__rpg 2>/dev/null
-mkdir ../build/__rpg/fonts 2>/dev/null
+mkdir -p ../build/__rpg 2>/dev/null
+mkdir -p ../build/__rpg/fonts 2>/dev/null
 cp -f dldi/r4_sd/r4_sd.dldi ../build/__rpg/r4_sd.dldi
 cp -f dldi/r4_sd/r4_sd.dldi ../build/__rpg/r4ds.dldi
 cp -f dldi/rpg_nand/rpg_nand.dldi ../build/__rpg/
@@ -51,9 +51,15 @@ make clean >/dev/null
 ../xenobox dldipatch ../build/__rpg/rpg_nand.dldi ../build/woodrpg_mod.nds
 #../xenobox modifybanner ../build/woodrpg_mod.nds "Wood RPG mod;with autorunWithLastRom" #"Real Play Gear" is printed by default
 cp -f ../patch/libunds_dldi_stub_16k.s libunds/source/arm9/dldi/dldi_stub.s
+mkdir -p ../release/woodrpg_mod/__rpg
+cp -a ../build/__rpg/fonts ../release/woodrpg_mod/__rpg/
+cp -a ../build/__rpg/language ../release/woodrpg_mod/__rpg/
+cp -a ../build/__rpg/ui ../release/woodrpg_mod/__rpg/
+cp -f ../build/woodrpg_mod.nds ../release/woodrpg_mod/akmenu4.nds
+
 #BUILD_WOODRPG_BASE
 
-#: <<"#BUILD_WOODR4"
+: <<"#BUILD_WOODR4"
 echo Building WoodR4 and WoodR4iDSN...
 make akmenu4/_DS_MENU.DAT akmenu4/_DSMENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodr4.nds
@@ -63,9 +69,19 @@ make clean >/dev/null
 ../xenobox dldipatch ../build/__rpg/r4idsn_sd.dldi ../build/woodr4idsn.nds
 ../xenobox modifybanner ../build/woodr4.nds "Wood R4 mod;with autorunWithLastRom"
 ../xenobox modifybanner ../build/woodr4idsn.nds "Wood R4idsn mod;with autorunWithLastRom"
+mkdir -p ../release/woodr4/__rpg
+cp -a ../build/__rpg/fonts ../release/woodr4/__rpg/
+cp -a ../build/__rpg/language ../release/woodr4/__rpg/
+cp -a ../build/__rpg/ui ../release/woodr4/__rpg/
+r4denc ../build/woodr4.nds ../release/woodr4/_ds_menu.dat
+mkdir -p ../release/woodr4idsn/__rpg
+cp -a ../build/__rpg/fonts ../release/woodr4idsn/__rpg/
+cp -a ../build/__rpg/language ../release/woodr4idsn/__rpg/
+cp -a ../build/__rpg/ui ../release/woodr4idsn/__rpg/
+cp -f ../build/woodr4idsn.nds ../release/woodr4idsn/_dsmenu.dat
 #BUILD_WOODR4
 
-#: <<"#BUILD_WOODR4SDHC"
+: <<"#BUILD_WOODR4SDHC"
 echo Building WoodR4sdhc...
 cp -f ../patch/romloader_r4sdhc.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
@@ -73,36 +89,59 @@ cp -f akmenu4/akmenu4_r4.nds ../build/woodr4sdhc.nds
 make clean >/dev/null
 ../xenobox dldipatch ../build/__rpg/r4_sd.dldi ../build/woodr4sdhc.nds
 ../xenobox modifybanner ../build/woodr4sdhc.nds "Wood R4 SDHC;partial clone support;sav defragment"
+mkdir -p ../release/woodr4sdhc/__rpg
+cp -a ../build/__rpg/fonts ../release/woodr4sdhc/__rpg/
+cp -a ../build/__rpg/language ../release/woodr4sdhc/__rpg/
+cp -a ../build/__rpg/ui ../release/woodr4sdhc/__rpg/
+cp -f ../build/woodr4sdhc.nds ../release/woodr4sdhc/woodr4sdhc.nds
 #BUILD_WOODR4SDHC
 
-#: <<"#BUILD_WOODILS"
+: <<"#BUILD_WOODILS"
 echo Building WoodiLS...
 cp -f ../patch/romloader_ils.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodils.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ex4tf.dldi ../build/woodils.nds
+../xenobox dldipatch ../dldi/ex4tf.dldi ../build/woodils.nds
 ../xenobox modifybanner ../build/woodils.nds "Wood iLS;for R4iLS;only for SD <=4GB"
+mkdir -p ../release/woodils/__rpg
+cp -a ../build/__rpg/fonts ../release/woodils/__rpg/
+cp -a ../build/__rpg/language ../release/woodils/__rpg/
+cp -a ../build/__rpg/ui ../release/woodils/__rpg/
+cp -f ../build/woodils.nds ../release/woodils/woodils.nds
 #BUILD_WOODILS
 
-#: <<"#BUILD_WOODEX4"
+: <<"#BUILD_WOODEX4"
 echo Building WoodEX4...
 cp -f ../patch/romloader_ex4.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodex4.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ex4tf.dldi ../build/woodex4.nds
+../xenobox dldipatch ../dldi/ex4tf.dldi ../build/woodex4.nds
 ../xenobox modifybanner ../build/woodex4.nds "Wood EX4;for R4iLS/EX4DS;nds/sav defragment"
+mkdir -p ../release/woodex4/__rpg
+cp -a ../build/__rpg/fonts ../release/woodex4/__rpg/
+cp -a ../build/__rpg/language ../release/woodex4/__rpg/
+cp -a ../build/__rpg/ui ../release/woodex4/__rpg/
+r4denc ../build/woodex4.nds ../release/woodex4/_ds_menu.dat
 #BUILD_WOODEX4
 
-#: <<"#BUILD_WOODM3"
+: <<"#BUILD_WOODM3"
 echo Building WoodM3...
 cp -f ../patch/romloader_m3.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodm3.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/m3ds.dldi ../build/woodm3.nds
+../xenobox dldipatch ../dldi/m3ds.dldi ../build/woodm3.nds
 ../xenobox modifybanner ../build/woodm3.nds "Wood M3;for M3Real/M3iZero"
+mkdir -p ../release/woodm3/__rpg
+cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
+cp -a ../build/__rpg/language ../release/woodm3/__rpg/
+cp -a ../build/__rpg/ui ../release/woodm3/__rpg/
+cp -f ../build/woodm3.nds ../release/woodm3/woodm3.nds
+cp -f ../dldi/m3ds.dldi ../release/woodm3/__rpg/m3_sd.dldi
+cp -f ../static/WoodM3/__rpg/m3loader.nds ../release/woodm3/__rpg/m3loader.nds
+7z a -r ../release/woodm3.7z ../release/woodm3/*
 #BUILD_WOODM3
 
 : <<"#BUILD_WOODG003"
@@ -111,7 +150,7 @@ cp -f ../patch/romloader_g003.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodg003.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/g003.dldi ../build/woodg003.nds
+../xenobox dldipatch ../dldi/g003.dldi ../build/woodg003.nds
 ../xenobox modifybanner ../build/woodg003.nds "Wood G003;for GMP-Z003;nds/sav defragment"
 #BUILD_WOODG003
 
@@ -121,84 +160,100 @@ cp -f ../patch/romloader_dstt.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/wooddstt.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ttio.dldi ../build/wooddstt.nds
+../xenobox dldipatch ../dldi/ttio.dldi ../build/wooddstt.nds
 ../xenobox modifybanner ../build/wooddstt.nds "Wood DSTT;for DSTT/SCDSONE(i);nds/sav defragment"
 #BUILD_WOODDSTT
 
-#: <<"#BUILD_WOODTT"
+: <<"#BUILD_WOODTT"
 echo Building WoodTT...
 cp -f ../patch/romloader_tt.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodtt.nds
 make clean >/dev/null
-../xenobox dldipatch ../build/__rpg/tt_sd.dldi ../build/woodtt.nds
+../xenobox dldipatch ../dldi/tt_sd.dldi ../build/woodtt.nds
 ../xenobox modifybanner ../build/woodtt.nds "Wood TT;for DSTT/SCDSONE(i)"
+mkdir -p ../release/woodtt/__rpg
+cp -a ../build/__rpg/fonts ../release/woodtt/__rpg/
+cp -a ../build/__rpg/language ../release/woodtt/__rpg/
+cp -a ../build/__rpg/ui ../release/woodtt/__rpg/
+cp -f ../build/woodtt.nds ../release/woodtt/ttmenu.dat
+cp -f ../dldi/tt_sd.dldi ../release/woodtt/__rpg/tt_sd.dldi
+cp -f ../static/WoodTT/ttloader.nds ../release/woodtt/__rpg/ttloader.nds
+7z a -r ../release/woodtt.7z ../release/woodtt/*
 #BUILD_WOODTT
 
-#: <<"#BUILD_WOODAK2i"
-echo Building WoodAK2i...
-cp -f ../patch/romloader_ak2i.cpp akmenu4/arm9/source/romloader.cpp
+: <<"#BUILD_WOODBL2CK"
+echo Building WoodBL2CK...
+cp -f ../patch/romloader_bl2ck.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/woodak2i.nds
+cp -f akmenu4/akmenu4_r4.nds ../build/woodbl2ck.nds
 make clean >/dev/null
-../xenobox dldipatch ../build/__rpg/ak2sd.dldi ../build/woodak2i.nds
-../xenobox modifybanner ../build/woodak2i.nds "Wood AK2i"
-#BUILD_WOODAK2i
+../xenobox dldipatch ../dldi/r4isd.dldi ../build/woodbl2ck.nds
+../xenobox modifybanner ../build/woodbl2ck.nds "Wood BL2CK;with autorunWithLastRom"
+mkdir -p ../release/woodbl2ck/__rpg
+cp -a ../build/__rpg/fonts ../release/woodbl2ck/__rpg/
+cp -a ../build/__rpg/language ../release/woodbl2ck/__rpg/
+cp -a ../build/__rpg/ui ../release/woodbl2ck/__rpg/
+cp -f ../build/woodbl2ck.nds ../release/woodbl2ck/_ds_menu.dat
+cp -f ../dldi/r4isd.dldi ../release/woodbl2ck/__rpg/r4isd.dldi
+cp -a ../static/BL2CK/* ../release/woodbl2ck/
+7z a -r ../release/woodbl2ck.7z ../release/woodbl2ck/*
+#BUILD_WOODBL2CK
 
-#: <<"#BUILD_WOODR4Li"
+: <<"#BUILD_WOODR4Li"
 echo Building WoodR4Li...
 cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodr4li.nds
 make clean >/dev/null
-../xenobox dldipatch ../build/__rpg/r4li_sd.dldi ../build/woodr4li.nds
-../xenobox modifybanner ../build/woodr4li.nds "Wood R4li"
+../xenobox dldipatch ../dldi/r4li_sd.dldi ../build/woodr4li.nds
+../xenobox modifybanner ../build/woodr4li.nds "Wood R4li;with autorunWithLastRom"
+mkdir -p ../release/woodr4li/__rpg
+cp -a ../build/__rpg/fonts ../release/woodr4li/__rpg/
+cp -a ../build/__rpg/language ../release/woodr4li/__rpg/
+cp -a ../build/__rpg/ui ../release/woodr4li/__rpg/
+r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodr4li/_ds_menu.dat
+cp -f ../dldi/ex4tf.dldi ../release/woodr4li/__rpg/game.dldi
+cp -a ../static/R4Li/* ../release/woodr4li/
+7z a -r ../release/woodr4li.7z ../release/woodr4li/*
 #BUILD_WOODR4Li
-
-#: <<"#BUILD_WOODBL2CK"
-echo Building WoodR4Li...
-cp -f ../patch/romloader_bl2ck.cpp akmenu4/arm9/source/romloader.cpp
-make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/woodbl2ck.nds
-make clean >/dev/null
-../xenobox dldipatch ../build/__rpg/r4isd.dldi ../build/woodbl2ck.nds
-../xenobox modifybanner ../build/woodbl2ck.nds "Wood BL2CK"
-#BUILD_WOODBL2CK
 
 cp -f ../patch/fatx.h akmenu4/arm9/source/fatx.h
 
-#: <<"#BUILD_WOODR4LS"
+: <<"#BUILD_WOODR4LS"
 echo Building WoodR4LS...
 cp -f ../patch/romloader_r4ls.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodr4ls.nds
 make clean >/dev/null
-../xenobox dldipatch ../build/__rpg/r4_sd.dldi ../build/woodr4ls.nds
+../xenobox dldipatch ../dldi/r4_sd.dldi ../build/woodr4ls.nds
 ../xenobox modifybanner ../build/woodr4ls.nds "Wood R4LS;R4_AK_Special lives longer"
+mkdir -p ../release/woodr4ls/__rpg
+cp -a ../build/__rpg/fonts ../release/woodr4ls/__rpg/
+cp -a ../build/__rpg/language ../release/woodr4ls/__rpg/
+cp -a ../build/__rpg/ui ../release/woodr4ls/__rpg/
+cp -f ../build/woodr4ls.nds ../release/woodr4ls/woodr4ls.nds
+cp -f ../build/__rpg/r4_sd.dldi ../release/woodr4ls/__rpg/r4_sd.dldi
+cp -a ../static/R4LS/* ../release/woodr4ls/
+7z a -r ../release/woodr4ls.7z ../release/woodr4ls/*
 #BUILD_WOODR4LS
 
-#: <<"#BUILD_WOODRPG_AK2i"
+: <<"#BUILD_WOODRPG_AK2i"
 echo Building WoodRPG AK2i...
 cp -f ../patch/romloader_rpgak2i.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodrpg_ak2i.nds
 make clean >/dev/null
+../xenobox dldipatch ../dldi/ak2_sd.dldi ../build/woodrpg_ak2i.nds
 ../xenobox modifybanner ../build/woodrpg_ak2i.nds "Wood R4;modified for akloader"
+mkdir -p ../release/woodrpg_ak2i/__rpg
+cp -a ../build/__rpg/fonts ../release/woodrpg_ak2i/__rpg/
+cp -a ../build/__rpg/language ../release/woodrpg_ak2i/__rpg/
+cp -a ../build/__rpg/ui ../release/woodrpg_ak2i/__rpg/
+cp -f ../build/woodrpg_ak2i.nds ../release/woodrpg_ak2i/akmenu4.nds
+cp -f ../dldi/ak2_sd.dldi ../release/woodrpg_ak2i/__rpg/ak2_sd.dldi
+7z a -r ../release/woodrpg_ak2i.7z ../release/woodrpg_ak2i/*
 #BUILD_WOODRPG_AK2i
-
-cp -f ../patch/dldi.h akmenu4/arm9/source/dldi.h
-cp -f ../patch/main_waio.cpp akmenu4/arm9/source/main.cpp
-
-#: <<"#BUILD_WAIO"
-echo Building WAIO...
-cp -f ../patch/romloader_waio.cpp akmenu4/arm9/source/romloader.cpp
-cp -f ../patch/libunds_dldi_stub.s libunds/source/arm9/dldi/dldi_stub.s
-make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/waio.nds
-make clean >/dev/null
-../xenobox modifybanner ../build/waio.nds "WAIO - Wood All In One;another frontend for;MoonShell2 Extlink Wrapper"
-cp -f ../patch/libunds_dldi_stub_16k.s libunds/source/arm9/dldi_stub.s
-#BUILD_WAIO
 
 #__BUILD_GUI
 
@@ -217,53 +272,64 @@ make akloader/akloader_r4.nds akloader/akloader_rpg.nds akloader/akloader_r4idsn
 cp -f akloader/akloader_r4.nds ../build/__rpg/r4loader.nds
 cp -f akloader/akloader_rpg.nds ../build/__rpg/rpgloader.nds
 cp -f akloader/akloader_r4idsn.nds ../build/__rpg/r4idsnloader.nds
-cp -f akloader/akloader_r4.nds ../build/__rpg/ilsloader.nds
 make clean >/dev/null
 ../xenobox dldipatch ../build/__rpg/r4_sd.dldi ../build/__rpg/r4loader.nds
 ../xenobox dldipatch ../build/__rpg/rpg_nand.dldi ../build/__rpg/rpgloader.nds
 ../xenobox dldipatch ../build/__rpg/r4idsn_sd.dldi ../build/__rpg/r4idsnloader.nds
-../xenobox dldipatch ../patch/ex4tf.dldi ../build/__rpg/ilsloader.nds
+cp -f ../build/__rpg/r4loader.nds ../release/woodr4/__rpg/r4loader.nds
+7z a -r ../release/woodr4.7z ../release/woodr4/*
+cp -f ../build/__rpg/r4idsnloader.nds ../release/woodr4/__rpg/r4idsnloader.nds
+7z a -r ../release/woodr4idsn.7z ../release/woodr4idsn/*
+cp -f ../build/__rpg/rpgloader.nds ../release/woodrpg_mod/__rpg/rpgloader.nds
+7z a -r ../release/woodrpg_mod.7z ../release/woodrpg_mod/*
+
 #BUILD_NORMAL_LOADER
 
-#: <<"#BUILD_ILSLOADER"
+: <<"#BUILD_ILSLOADER"
 echo Building ilsloader.nds...
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/ilsloader.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ex4tf.dldi ../build/__rpg/ilsloader.nds
+../xenobox dldipatch ../dldi/ex4tf.dldi ../build/__rpg/ilsloader.nds
+cp -f ../build/__rpg/ilsloader.nds ../release/woodils/__rpg/ilsloader.nds
+7z a -r ../release/woodils.7z ../release/woodils/*
 #BUILD_ILSLOADER
 
 cp -f ../patch/akloader_rpgmaps_sav.cpp akloader/arm9/source/rpgmaps.cpp
 
-#: <<"#BUILD_R4LOADERSDHC"
+: <<"#BUILD_R4LOADERSDHC"
 echo Building r4loadersdhc.nds...
-cp -f ../patch/r4sdhc/{save_nand,sd_save}.bin akloader/arm9/data/r4/
+cp -f ../patch/r4sdhc/*.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/r4loadersdhc.nds
 make clean >/dev/null
 ../xenobox dldipatch ../build/__rpg/r4_sd.dldi ../build/__rpg/r4loadersdhc.nds
+cp -f ../build/__rpg/r4loadersdhc.nds ../release/woodr4sdhc/__rpg/r4loadersdhc.nds
+7z a -r ../release/woodr4sdhc.7z ../release/woodr4sdhc/*
 #BUILD_R4LOADERSDHC
 
 cp -f ../patch/akloader_main.cpp akloader/arm9/source/main.cpp #lock softreset (B4 command not supported)
 #cp -f ../patch/reset/resetpatch9.bin akloader/arm9/data/r4/
 cp -f ../patch/akloader_rpgmaps_nds.cpp akloader/arm9/source/rpgmaps.cpp
 
-#: <<"#BUILD_EX4LOADER"
+: <<"#BUILD_EX4LOADER"
 echo Building ex4loader.nds...
-cp -f ../patch/ex4/{save_nand,sd_save,dma4}.bin akloader/arm9/data/r4/
+cp -f ../patch/ex4/*.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/ex4loader.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ex4tf.dldi ../build/__rpg/ex4loader.nds
+../xenobox dldipatch ../dldi/ex4tf.dldi ../build/__rpg/ex4loader.nds
+cp -f ../build/__rpg/ex4loader.nds ../release/woodex4/__rpg/ex4loader.nds
+7z a -r ../release/woodex4.7z ../release/woodex4/*
 #BUILD_EX4LOADER
 
-#: <<"#BUILD_M3LOADER"
+: <<"#BUILD_M3LOADER"
 echo Building m3loader.nds...
 cp -f ../patch/m3/{save_nand,sd_save,dma4}.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/m3loader_old.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/m3ds.dldi ../build/__rpg/m3loader_old.nds
+../xenobox dldipatch ../dldi/m3ds.dldi ../build/__rpg/m3loader_old.nds
 #BUILD_M3LOADER
 
 : <<"#BUILD_G003LOADER"
@@ -272,7 +338,7 @@ cp -f ../patch/g003/{save_nand,sd_save,dma4}.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/g003loader.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/g003.dldi ../build/__rpg/g003loader.nds
+../xenobox dldipatch ../dldi/g003.dldi ../build/__rpg/g003loader.nds
 #BUILD_G003LOADER
 
 : <<"#BUILD_DSTTLOADER" #bad...
@@ -281,7 +347,7 @@ cp -f ../patch/dstt/{save_nand,sd_save,dma4}.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/dsttloader.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ttio.dldi ../build/__rpg/dsttloader.nds
+../xenobox dldipatch ../dldi/ttio.dldi ../build/__rpg/dsttloader.nds
 #BUILD_DSTTLOADER
 
 cp -f ../patch/akloader_rpgmaps_nds_dsttsd.cpp akloader/arm9/source/rpgmaps.cpp
@@ -292,7 +358,7 @@ cp -f ../patch/dsttsd/{save_nand,sd_save,dma4}.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/dsttsdloader.nds
 make clean >/dev/null
-../xenobox dldipatch ../patch/ttio.dldi ../build/__rpg/dsttsdloader.nds
+../xenobox dldipatch ../dldi/ttio.dldi ../build/__rpg/dsttsdloader.nds
 #BUILD_DSTTSDLOADER
 
 #__BUILD_LOADER
