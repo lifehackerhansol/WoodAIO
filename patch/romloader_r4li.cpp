@@ -68,7 +68,7 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
 #if defined(_STORAGE_rpg)
 	ldr = fopen("fat0:/__rpg/rpgloader.nds", "rb");
 #elif defined(_STORAGE_r4)
-	ldr = fopen("fat0:/__rpg/r4liloader.nds", "rb");
+	ldr = fopen("fat0:/__rpg/ace3dsplusloader.nds", "rb");
 #endif
 	if(ldr == NULL)	return false;
 	fread((u8*)hed, 16*4, 1, ldr);

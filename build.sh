@@ -197,6 +197,7 @@ cp -a ../build/__rpg/ui ../release/woodbl2ck/__rpg/
 cp -f ../build/woodbl2ck.nds ../release/woodbl2ck/_ds_menu.dat
 cp -f ../dldi/r4isd.dldi ../release/woodbl2ck/__rpg/r4isd.dldi
 cp -a ../static/BL2CK/* ../release/woodbl2ck/
+cp -f ../static/globalsettings.ini ../release/woodbl2ck/__rpg/globalsettings.ini
 7z a -r ../release/woodbl2ck.7z ../release/woodbl2ck/*
 #BUILD_WOODBL2CK
 
@@ -204,17 +205,23 @@ cp -a ../static/BL2CK/* ../release/woodbl2ck/
 echo Building WoodR4Li...
 cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/woodr4li.nds
+cp -f akmenu4/akmenu4_r4.nds ../build/woodace3dsplus.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/r4li_sd.dldi ../build/woodr4li.nds
-../xenobox modifybanner ../build/woodr4li.nds "Wood R4li;with autorunWithLastRom"
+../xenobox dldipatch ../dldi/r4li_sd.dldi ../build/woodace3dsplus.nds
+../xenobox modifybanner ../build/woodace3dsplus.nds "Wood R4li;with autorunWithLastRom"
+cp -f ../build/woodace3dsplus.nds ../build/woodr4li.nds
+../xenobox binreplace ../build/woodr4li.nds "_ds_menu.dat" "_dsmenu.dat/x00"
+../xenobox binreplace ../build/woodr4li.nds "ace3dsplusloader.nds" "r4liloader.nds/x00/x00/x00/x00/x00/x00"
 mkdir -p ../release/woodr4li/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4li/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4li/__rpg/
 cp -a ../build/__rpg/ui ../release/woodr4li/__rpg/
-r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodr4li/_ds_menu.dat
+r4denc -k 0x4002 ../build/woodace3dsplus.nds ../release/woodr4li/_ds_menu.dat
+../xenobox binreplace ../build/woodr4li.nds "/x2E/x00/x00/xEA" "R4XX"
+r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodr4li/_dsmenu.dat
 cp -f ../dldi/ex4tf.dldi ../release/woodr4li/__rpg/game.dldi
 cp -a ../static/R4Li/* ../release/woodr4li/
+cp -f ../static/globalsettings.ini ../release/woodr4li/__rpg/globalsettings.ini
 7z a -r ../release/woodr4li.7z ../release/woodr4li/*
 #BUILD_WOODR4Li
 
