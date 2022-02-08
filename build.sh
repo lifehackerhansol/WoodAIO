@@ -1,7 +1,7 @@
 #!/bin/sh
 export LC_ALL=en_US.UTF-8
 
-: <<"#FETCH_WOODRPG"
+#: <<"#FETCH_WOODRPG"
 echo Fetching WoodRPG...
 if [ -f woodrpg.7z ]; then #use cache
 	7z x -y woodrpg.7z
@@ -29,7 +29,7 @@ rm -f akmenu4/arm9/data/r4/*.bin
 rm -f akmenu4/arm9/data/rpg/*.bin
 rm -f akmenu4/arm9/data/r4idsn/*.bin
 
-: <<"#BUILD_WOODRPG_BASE"
+#: <<"#BUILD_WOODRPG_BASE"
 echo Building WoodRPG base structure...
 cp -f ../patch/libunds_dldi_stub.s libunds/source/arm9/dldi/dldi_stub.s
 make dldi fonts akmenu4/akmenu4.nds >/dev/null
@@ -182,7 +182,7 @@ cp -f ../static/WoodTT/ttloader.nds ../release/woodtt/__rpg/ttloader.nds
 7z a -r ../release/woodtt.7z ../release/woodtt/*
 #BUILD_WOODTT
 
-: <<"#BUILD_WOODBL2CK"
+#: <<"#BUILD_WOODBL2CK"
 echo Building WoodBL2CK...
 cp -f ../patch/romloader_bl2ck.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
@@ -200,7 +200,7 @@ cp -a ../static/BL2CK/* ../release/woodbl2ck/
 7z a -r ../release/woodbl2ck.7z ../release/woodbl2ck/*
 #BUILD_WOODBL2CK
 
-: <<"#BUILD_WOODR4Li"
+#: <<"#BUILD_WOODR4Li"
 echo Building WoodR4Li...
 cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
