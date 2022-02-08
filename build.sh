@@ -212,17 +212,29 @@ make clean >/dev/null
 cp -f ../build/woodace3dsplus.nds ../build/woodr4li.nds
 ../xenobox binreplace ../build/woodr4li.nds "_ds_menu.dat" "_dsmenu.dat/x00"
 ../xenobox binreplace ../build/woodr4li.nds "ace3dsplusloader.nds" "r4liloader.nds/x00/x00/x00/x00/x00/x00"
+cp -f ../build/woodr4li.nds ../build/woodgateway.nds
 mkdir -p ../release/woodr4li/__rpg
+mkdir -p ../release/woodgateway/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4li/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4li/__rpg/
 cp -a ../build/__rpg/ui ../release/woodr4li/__rpg/
+cp -f ../static/globalsettings.ini ../release/woodr4li/__rpg/globalsettings.ini
+cp -a ../static/Ace3DSPlus/* ../release/woodr4li/
+cp -a ../static/R4Li/* ../release/woodr4li/
+cp -f ../dldi/ex4tf.dldi ../release/woodr4li/__rpg/game.dldi
+cp -a ../build/__rpg/fonts ../release/woodgateway/__rpg/
+cp -a ../build/__rpg/language ../release/woodgateway/__rpg/
+cp -a ../build/__rpg/ui ../release/woodgateway/__rpg/
+cp -f ../static/globalsettings.ini ../release/woodgateway/__rpg/globalsettings.ini
+cp -a ../static/R4Li/* ../release/woodgateway/
+cp -f ../dldi/ex4tf.dldi ../release/woodgateway/__rpg/game.dldi
 r4denc -k 0x4002 ../build/woodace3dsplus.nds ../release/woodr4li/_ds_menu.dat
 ../xenobox binreplace ../build/woodr4li.nds "/x2E/x00/x00/xEA" "R4XX"
 r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodr4li/_dsmenu.dat
-cp -f ../dldi/ex4tf.dldi ../release/woodr4li/__rpg/game.dldi
-cp -a ../static/R4Li/* ../release/woodr4li/
-cp -f ../static/globalsettings.ini ../release/woodr4li/__rpg/globalsettings.ini
+../xenobox binreplace ../build/woodr4li.nds "/x2E/x00/x00/xEA" "R4IT"
+r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodgateway/_dsmenu.dat
 7z a -r ../release/woodr4li.7z ../release/woodr4li/*
+7z a -r ../release/woodgateway.7z ../release/woodgateway/*
 #BUILD_WOODR4Li
 
 cp -f ../patch/fatx.h akmenu4/arm9/source/fatx.h
