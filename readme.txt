@@ -234,4 +234,5 @@ r2 is derived from R4i3D 2012 1.50, which uses mixinfo.dat.
 
 continue by lifehackerhansol:
 r4liloader.nds 1.62 (ACE3DS)
-ak2loader replaced with BL2CK loader
+ak2loader replaced with BL2CK loader (and add missing files)
+default savelist.bin attached (from AKAIO 1.9.0)

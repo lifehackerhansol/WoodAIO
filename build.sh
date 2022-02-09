@@ -197,7 +197,8 @@ cp -a ../build/__rpg/ui ../release/woodbl2ck/__rpg/
 cp -f ../build/woodbl2ck.nds ../release/woodbl2ck/_ds_menu.dat
 cp -f ../dldi/r4isd.dldi ../release/woodbl2ck/__rpg/r4isd.dldi
 cp -a ../static/BL2CK/* ../release/woodbl2ck/
-cp -f ../static/globalsettings.ini ../release/woodbl2ck/__rpg/globalsettings.ini
+cp -a ../static/*.ini ../release/woodbl2ck/__rpg/
+cp -f ../static/savelist.bin ../release/woodbl2ck/__rpg/savelist.bin
 7z a -r ../release/woodbl2ck.7z ../release/woodbl2ck/*
 #BUILD_WOODBL2CK
 
@@ -218,14 +219,16 @@ mkdir -p ../release/woodgateway/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4li/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4li/__rpg/
 cp -a ../build/__rpg/ui ../release/woodr4li/__rpg/
-cp -f ../static/globalsettings.ini ../release/woodr4li/__rpg/globalsettings.ini
+cp -a ../static/*.ini ../release/woodr4li/__rpg/
+cp -f ../static/savelist.bin ../release/woodr4li/__rpg/savelist.bin
 cp -a ../static/Ace3DSPlus/* ../release/woodr4li/
 cp -a ../static/R4Li/* ../release/woodr4li/
 cp -f ../dldi/ex4tf.dldi ../release/woodr4li/__rpg/game.dldi
 cp -a ../build/__rpg/fonts ../release/woodgateway/__rpg/
 cp -a ../build/__rpg/language ../release/woodgateway/__rpg/
 cp -a ../build/__rpg/ui ../release/woodgateway/__rpg/
-cp -f ../static/globalsettings.ini ../release/woodgateway/__rpg/globalsettings.ini
+cp -a ../static/*.ini ../release/woodgateway/__rpg/
+cp -f ../static/savelist.bin ../release/woodgateway/__rpg/savelist.bin
 cp -a ../static/R4Li/* ../release/woodgateway/
 cp -f ../dldi/ex4tf.dldi ../release/woodgateway/__rpg/game.dldi
 r4denc -k 0x4002 ../build/woodace3dsplus.nds ../release/woodr4li/_ds_menu.dat
