@@ -126,24 +126,6 @@ cp -a ../build/__rpg/ui ../release/woodex4/__rpg/
 r4denc ../build/woodex4.nds ../release/woodex4/_ds_menu.dat
 #BUILD_WOODEX4
 
-: <<"#BUILD_WOODM3"
-echo Building WoodM3...
-cp -f ../patch/romloader_m3.cpp akmenu4/arm9/source/romloader.cpp
-make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/woodm3.nds
-make clean >/dev/null
-../xenobox dldipatch ../dldi/m3ds.dldi ../build/woodm3.nds
-../xenobox modifybanner ../build/woodm3.nds "Wood M3;for M3Real/M3iZero"
-mkdir -p ../release/woodm3/__rpg
-cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
-cp -a ../build/__rpg/language ../release/woodm3/__rpg/
-cp -a ../build/__rpg/ui ../release/woodm3/__rpg/
-cp -f ../build/woodm3.nds ../release/woodm3/woodm3.nds
-cp -f ../dldi/m3ds.dldi ../release/woodm3/__rpg/m3_sd.dldi
-cp -f ../static/WoodM3/__rpg/m3loader.nds ../release/woodm3/__rpg/m3loader.nds
-7z a -r ../release/woodm3.7z ../release/woodm3/*
-#BUILD_WOODM3
-
 : <<"#BUILD_WOODG003"
 echo Building WoodG003...
 cp -f ../patch/romloader_g003.cpp akmenu4/arm9/source/romloader.cpp
@@ -239,6 +221,16 @@ r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodgateway/_dsmenu.dat
 7z a -r ../release/woodr4li.7z ../release/woodr4li/*
 7z a -r ../release/woodgateway.7z ../release/woodgateway/*
 #BUILD_WOODR4Li
+
+#: <<"#BUILD_WOODM3"
+echo Building WoodM3...
+cp -f ../patch/romloader_m3.cpp akmenu4/arm9/source/romloader.cpp
+make akmenu4/_DS_MENU.DAT >/dev/null
+cp -f akmenu4/akmenu4_r4.nds ../build/woodm3.nds
+make clean >/dev/null
+../xenobox dldipatch ../dldi/m3ds.dldi ../build/woodm3.nds
+../xenobox modifybanner ../build/woodm3.nds "Wood M3;for M3Real/M3iZero"
+#BUILD_WOODM3
 
 cp -f ../patch/fatx.h akmenu4/arm9/source/fatx.h
 
@@ -345,13 +337,25 @@ cp -f ../build/__rpg/ex4loader.nds ../release/woodex4/__rpg/ex4loader.nds
 7z a -r ../release/woodex4.7z ../release/woodex4/*
 #BUILD_EX4LOADER
 
-: <<"#BUILD_M3LOADER"
+#: <<"#BUILD_M3LOADER"
 echo Building m3loader.nds...
-cp -f ../patch/m3/{save_nand,sd_save,dma4}.bin akloader/arm9/data/r4/
+cp -f ../patch/m3/*.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
 cp -f akloader/akloader_r4.nds ../build/__rpg/m3loader_old.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/m3ds.dldi ../build/__rpg/m3loader_old.nds
+../xenobox dldipatch ../dldi/m3r4_m3ds.dldi ../build/__rpg/m3loader_old.nds
+mkdir -p ../release/woodm3/__rpg
+mkdir -p ../release/woodm3/_system_/_sys_data
+cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
+cp -a ../build/__rpg/language ../release/woodm3/__rpg/
+cp -a ../build/__rpg/ui ../release/woodm3/__rpg/
+cp -f ../build/woodm3.nds ../release/woodm3/_system_/_sys_data/r4i.sys
+cp -f ../build/__rpg/m3loader_old.nds ../release_woodm3/__rpg/m3loader.nds
+cp -f ../dldi/m3ds.dldi ../release/woodm3/__rpg/m3_sd.dldi
+cp -a ../static/WoodM3/* ../release/woodm3/
+cp -a ../static/*.ini ../release/woodm3/__rpg/
+cp -a ../static/savelist.bin ../release/woodm3/__rpg/
+7z a -r ../release/woodm3.7z ../release/woodm3/*
 #BUILD_M3LOADER
 
 : <<"#BUILD_G003LOADER"

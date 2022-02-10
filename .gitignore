@@ -3,3 +3,4 @@ woodrpg
 !static/*/*/*
 release
 build
+!unused/*
