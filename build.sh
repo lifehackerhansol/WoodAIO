@@ -1,7 +1,7 @@
 #!/bin/sh
 export LC_ALL=en_US.UTF-8
 
-#: <<"#FETCH_WOODRPG"
+: <<"#FETCH_WOODRPG"
 echo Fetching WoodRPG...
 if [ -f woodrpg.7z ]; then #use cache
 	7z x -y woodrpg.7z
@@ -225,11 +225,14 @@ r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodgateway/_dsmenu.dat
 #: <<"#BUILD_WOODM3"
 echo Building WoodM3...
 cp -f ../patch/romloader_m3.cpp akmenu4/arm9/source/romloader.cpp
+cp -f akmenu4/arm9/source/mainwnd.cpp akmenu4/arm9/source/mainwnd.cpp.bak
+cp -f ../patch/mainwnd_m3.cpp akmenu4/arm9/source/mainwnd.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodm3.nds
 make clean >/dev/null
 ../xenobox dldipatch ../dldi/m3ds.dldi ../build/woodm3.nds
 ../xenobox modifybanner ../build/woodm3.nds "Wood M3;for M3Real/M3iZero"
+mv -f akmenu4/arm9/source/mainwnd.cpp.bak akmenu4/arm9/source/mainwnd.cpp
 #BUILD_WOODM3
 
 cp -f ../patch/fatx.h akmenu4/arm9/source/fatx.h
@@ -341,16 +344,16 @@ cp -f ../build/__rpg/ex4loader.nds ../release/woodex4/__rpg/ex4loader.nds
 echo Building m3loader.nds...
 cp -f ../patch/m3/*.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
-cp -f akloader/akloader_r4.nds ../build/__rpg/m3loader_old.nds
+cp -f akloader/akloader_r4.nds ../build/__rpg/m3loader.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/m3r4_m3ds.dldi ../build/__rpg/m3loader_old.nds
+../xenobox dldipatch ../dldi/m3r4_m3ds.dldi ../build/__rpg/m3loader.nds
 mkdir -p ../release/woodm3/__rpg
 mkdir -p ../release/woodm3/_system_/_sys_data
 cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
 cp -a ../build/__rpg/language ../release/woodm3/__rpg/
 cp -a ../build/__rpg/ui ../release/woodm3/__rpg/
 cp -f ../build/woodm3.nds ../release/woodm3/_system_/_sys_data/r4i.sys
-cp -f ../build/__rpg/m3loader_old.nds ../release_woodm3/__rpg/m3loader.nds
+cp -f ../build/__rpg/m3loader.nds ../release/woodm3/__rpg/m3loader.nds
 cp -f ../dldi/m3ds.dldi ../release/woodm3/__rpg/m3_sd.dldi
 cp -a ../static/WoodM3/* ../release/woodm3/
 cp -a ../static/*.ini ../release/woodm3/__rpg/

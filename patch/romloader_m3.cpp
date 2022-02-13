@@ -61,6 +61,10 @@ bool loadRom( const std::string & filename, u32 flags, long cheatOffset,size_t c
 bool loadRom( const std::string & filename, const std::string & savename, u32 flags, long cheatOffset,size_t cheatSize )
 #endif
 {
+    if(strcasecmp(filename.c_str(), "fat0:/_system_/_sys_data/r4i.sys") == 0) {
+        ELM_Unmount();
+        resetAndLoop();
+    }
 	u32	hed[16];
 	u8	*ldrBuf;
 	FILE	*ldr=NULL;
