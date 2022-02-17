@@ -46,7 +46,7 @@ build/__rpg/rpgloader.nds
 	WoodRPG latest loader
 
 [proprietary loaders]
-build/__rpg/m3loader.nds
+build/__rpg/m3loader.nds (deprecated)
 build/__rpg/ttloader.nds (frontend: woodtt.nds)
 	WoodM3/WoodTT loader by toro
 build/__rpg/r4liloader.nds
@@ -233,6 +233,12 @@ r1 is derived from R4i3D 2012 1.49, which uses extinfo.dat.
 r2 is derived from R4i3D 2012 1.50, which uses mixinfo.dat.
 
 continue by lifehackerhansol:
-r4liloader.nds 1.62 (ACE3DS)
-ak2loader replaced with BL2CK loader (and add missing files)
+- r4liloader.nds 1.62 (ACE3DS)
+- r4liloader cannot reset to _DS_MENU.DAT and _DSMENU.DAT at the same time.
+	- So ace3dsplusloader.nds is created alongside r4liloader.nds, to split the two.
+- r4liloader was slightly changed to also create a Gateway Blue loader.
+- ex4loader and ilsloader are deprecated. They work fine with the r4liloader. 
+	- If woodrpg ever gets better compatibility maybe this will be reverted.
+ak2loader replaced with BL2CK loader (and add missing files). 
+	- DATs updated to BL2CK latest dats (can't use RGFs because of redistrib license. yeah...)
 default savelist.bin attached (from AKAIO 1.9.0)
