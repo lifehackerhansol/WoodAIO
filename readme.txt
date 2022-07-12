@@ -2,11 +2,11 @@ WAIO - WoodAllInOne (C) Taiju Yamada
 
 [License]
 build/*.nds -> GPLv3 or later
-build/__rpg/rpglink.nds -> MIT License
+build/__rpg/rpglink.nds -> MIT License (removed by lifehackerhansol by request of owner)
 
 [Contents]
 build/*.nds	binaries
-build/waio.nds
+build/waio.nds (no longer working as rpglink is removed by lifehackerhansol by request of owner)
 	Wood All In One, which loads /__rpg/rpglink.nds (modified AKRPG loader)
 	Don't forget to put /moonshl2/extlink/mshl2wrap.ini
 	hbmode is ignored; AKRPG loader is always used for homebrew.
@@ -22,25 +22,27 @@ build/woodm3.nds
 	WoodR4 patched (use modified m3loader.nds)
 build/woodr4ls.nds
 	WoodR4 patched (use r4lsloader.nds from R4_AK_Special)
-build/woodrpg_ak2i.nds
+build/woodrpg_ak2i.nds (deprecated)
 	WoodR4 which loads /akloader.nds (please prepare from akextract or AKAIO 1.6RC2)
 build/woodrpg_mod.nds
 	WoodRPG patched (use rpgloader.nds from official WoodRPG)
+build/woodbl2ck.nds
+	WoodR4 which loads bl2ckloader.nds (AK2i and R4iTT 3DS Clones)
 
 build/__rpg/*.nds loaders (loaders has a little different protocol so can be used only from appropriate GUI)
 build/__rpg/r4loader.nds
 	WoodR4 latest loader
 build/__rpg/r4loaderdldi.nds
 	WoodR4 loader (DLDI-zed, working on clones)
-build/__rpg/ex4loader.nds
+build/__rpg/ex4loader.nds (deprecated)
 	WoodR4 loader (DLDI-zed, for R4iLS/EX4DS)
-build/__rpg/ilsloader.nds
+build/__rpg/ilsloader.nds (deprecated)
 	WoodR4 loader (DLDI-zed, for R4iLS)
 build/__rpg/m3loader_old.nds
 	WoodR4 loader (DLDI-zed, for M3Real/M3iZero)
 build/__rpg/r4lsloader.nds
 	R4_AK_Special loader
-build/__rpg/rpglink.nds
+build/__rpg/rpglink.nds (removed by lifehackerhansol by request of owner)
 	WAIO MoonShell2 extlink wrapper
 build/__rpg/rpgloader.nds
 	WoodRPG latest loader
@@ -51,8 +53,9 @@ build/__rpg/ttloader.nds (frontend: woodtt.nds)
 	WoodM3/WoodTT loader by toro
 build/__rpg/r4liloader.nds
 	R4iLS loader (frontend: woodr4li.nds)
-build/__rpg/ak2loader.nds
-	R4i3D 2012 loader (frontend: woodak2i.nds)
+build/__rpg/bl2ckloader.nds
+	BL2CK loader (extracted from some R4iTT clone kernel) 
+	- Works on AK2i and R4iTT 3DS Clones
 
 [History]
 0.01.100329
@@ -239,6 +242,9 @@ continue by lifehackerhansol:
 - r4liloader was slightly changed to also create a Gateway Blue loader.
 - ex4loader and ilsloader are deprecated. They work fine with the r4liloader. 
 	- If woodrpg ever gets better compatibility maybe this will be reverted.
-ak2loader replaced with BL2CK loader (and add missing files). 
+- ak2loader replaced with BL2CK loader (and add missing files). 
 	- DATs updated to BL2CK latest dats (can't use RGFs because of redistrib license. yeah...)
-default savelist.bin attached (from AKAIO 1.9.0)
+- default savelist.bin attached (from AKAIO 1.9.0)
+- m3loader proprietary is dropped in favour of patched m3loader, as it actually works better.
+- BL2CK is found to support the AK2i. So just cp `_DS_MENU.DAT` to `akmenu4.nds` to make it work.
+	- woodrpg_ak2i is dropped in favour of this

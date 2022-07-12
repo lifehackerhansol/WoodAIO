@@ -125,7 +125,7 @@ cp -f ../patch/romloader_bl2ck.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodbl2ck.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/r4isd.dldi ../build/woodbl2ck.nds
+../xenobox dldipatch ../dldi/ak2_sd.dldi ../build/woodbl2ck.nds
 ../xenobox modifybanner ../build/woodbl2ck.nds "Wood BL2CK;with autorunWithLastRom"
 #BUILD_WOODBL2CK
 
@@ -176,22 +176,6 @@ cp -a ../static/R4LS/* ../release/woodr4ls/
 7z a -r ../release/woodr4ls.7z ../release/woodr4ls/*
 #BUILD_WOODR4LS
 
-: <<"#BUILD_WOODRPG_AK2i"
-echo Building WoodRPG AK2i...
-cp -f ../patch/romloader_rpgak2i.cpp akmenu4/arm9/source/romloader.cpp
-make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/woodrpg_ak2i.nds
-make clean >/dev/null
-../xenobox dldipatch ../dldi/ak2_sd.dldi ../build/woodrpg_ak2i.nds
-../xenobox modifybanner ../build/woodrpg_ak2i.nds "Wood R4;modified for akloader"
-mkdir -p ../release/woodrpg_ak2i/__rpg
-cp -a ../build/__rpg/fonts ../release/woodrpg_ak2i/__rpg/
-cp -a ../build/__rpg/language ../release/woodrpg_ak2i/__rpg/
-cp -a ../build/__rpg/ui ../release/woodrpg_ak2i/__rpg/
-cp -f ../build/woodrpg_ak2i.nds ../release/woodrpg_ak2i/akmenu4.nds
-cp -f ../dldi/ak2_sd.dldi ../release/woodrpg_ak2i/__rpg/ak2_sd.dldi
-7z a -r ../release/woodrpg_ak2i.7z ../release/woodrpg_ak2i/*
-#BUILD_WOODRPG_AK2i
 
 #__BUILD_GUI
 
@@ -313,8 +297,8 @@ mkdir -p ../release/woodbl2ck/__rpg
 cp -a ../build/__rpg/fonts ../release/woodbl2ck/__rpg/
 cp -a ../build/__rpg/language ../release/woodbl2ck/__rpg/
 cp -a ../build/__rpg/ui ../release/woodbl2ck/__rpg/
-cp -f ../build/woodbl2ck.nds ../release/woodbl2ck/_ds_menu.dat
-cp -f ../dldi/r4isd.dldi ../release/woodbl2ck/__rpg/r4isd.dldi
+cp -f ../build/woodbl2ck.nds ../release/woodbl2ck/akmenu4.nds
+cp -f ../dldi/ak2_sd.dldi ../release/woodbl2ck/__rpg/r4isd.dldi
 cp -a ../static/BL2CK/* ../release/woodbl2ck/
 cp -a ../static/*.ini ../release/woodbl2ck/__rpg/
 cp -f ../static/savelist.bin ../release/woodbl2ck/__rpg/savelist.bin
@@ -401,6 +385,23 @@ cp -a ../build/__rpg/language ../release/woodex4/__rpg/
 cp -a ../build/__rpg/ui ../release/woodex4/__rpg/
 r4denc ../build/woodex4.nds ../release/woodex4/_ds_menu.dat
 #BUILD_WOODEX4
+
+: <<"#BUILD_WOODRPG_AK2i"
+echo Building WoodRPG AK2i...
+cp -f ../patch/romloader_rpgak2i.cpp akmenu4/arm9/source/romloader.cpp
+make akmenu4/_DS_MENU.DAT >/dev/null
+cp -f akmenu4/akmenu4_r4.nds ../build/woodrpg_ak2i.nds
+make clean >/dev/null
+../xenobox dldipatch ../dldi/ak2_sd.dldi ../build/woodrpg_ak2i.nds
+../xenobox modifybanner ../build/woodrpg_ak2i.nds "Wood R4;modified for akloader"
+mkdir -p ../release/woodrpg_ak2i/__rpg
+cp -a ../build/__rpg/fonts ../release/woodrpg_ak2i/__rpg/
+cp -a ../build/__rpg/language ../release/woodrpg_ak2i/__rpg/
+cp -a ../build/__rpg/ui ../release/woodrpg_ak2i/__rpg/
+cp -f ../build/woodrpg_ak2i.nds ../release/woodrpg_ak2i/akmenu4.nds
+cp -f ../dldi/ak2_sd.dldi ../release/woodrpg_ak2i/__rpg/ak2_sd.dldi
+7z a -r ../release/woodrpg_ak2i.7z ../release/woodrpg_ak2i/*
+#BUILD_WOODRPG_AK2i
 
 : <<"#BUILD_EX4LOADER"
 echo Building ex4loader.nds...
