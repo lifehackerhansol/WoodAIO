@@ -54,7 +54,7 @@ cp -f ../patch/libunds_dldi_stub_16k.s libunds/source/arm9/dldi/dldi_stub.s
 
 #BUILD_WOODRPG_BASE
 
-#: <<"#BUILD_WOODR4"
+: <<"#BUILD_WOODR4"
 echo Building WoodR4 and WoodR4iDSN...
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodr4.nds
@@ -63,7 +63,7 @@ make clean >/dev/null
 ../xenobox modifybanner ../build/woodr4.nds "Wood R4 mod;external akloader"
 #BUILD_WOODR4
 
-#: <<"#BUILD_WOODR4IDSN"
+: <<"#BUILD_WOODR4IDSN"
 echo Building WoodR4iDSN...
 make akmenu4/_DSMENU.DAT >/dev/null
 cp -f akmenu4/_DSMENU.DAT ../build/woodr4idsn.nds
@@ -125,7 +125,7 @@ cp -f ../static/WoodTT/ttloader.nds ../release/woodtt/__rpg/ttloader.nds
 7z a -r ../release/woodtt.7z ../release/woodtt/*
 #BUILD_WOODTT
 
-#: <<"#BUILD_WOODBL2CK"
+: <<"#BUILD_WOODBL2CK"
 echo Building WoodBL2CK...
 cp -f ../patch/romloader_bl2ck.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
@@ -135,7 +135,7 @@ make clean >/dev/null
 ../xenobox modifybanner ../build/woodbl2ck.nds "Wood BL2CK;with autorunWithLastRom"
 #BUILD_WOODBL2CK
 
-#: <<"#BUILD_WOODR4Li"
+: <<"#BUILD_WOODR4Li"
 echo Building WoodR4Li...
 cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
@@ -149,7 +149,7 @@ cp -f ../build/woodace3dsplus.nds ../build/woodr4li.nds
 cp -f ../build/woodr4li.nds ../build/woodgateway.nds
 #BUILD_WOODR4Li
 
-#: <<"#BUILD_WOODM3"
+: <<"#BUILD_WOODM3"
 echo Building WoodM3...
 cp -f ../patch/romloader_m3.cpp akmenu4/arm9/source/romloader.cpp
 cp -f akmenu4/arm9/source/mainwnd.cpp akmenu4/arm9/source/mainwnd.cpp.bak
@@ -182,10 +182,30 @@ cp -a ../static/R4LS/* ../release/woodr4ls/
 7z a -r ../release/woodr4ls.7z ../release/woodr4ls/*
 #BUILD_WOODR4LS
 
+#: <<"#BUILD_WOODYS"
+echo Building WoodYS...
+cp -f ../patch/romloader_ys.cpp akmenu4/arm9/source/romloader.cpp
+cp -f akmenu4/arm9/source/mainwnd.cpp akmenu4/arm9/source/mainwnd.cpp.bak
+cp -f ../patch/mainwnd_ys.cpp akmenu4/arm9/source/mainwnd.cpp
+make akmenu4/_DS_MENU.DAT >/dev/null
+cp -f akmenu4/akmenu4_r4.nds ../build/woodys.nds
+make clean >/dev/null
+../xenobox dldipatch ../dldi/tt_sd.dldi ../build/woodys.nds
+../xenobox modifybanner ../build/woodys.nds "Wood YS;DSTT ttpatch wrapper"
+mkdir -p ../release/woodys/__rpg
+cp -a ../build/__rpg/fonts ../release/woodys/__rpg/
+cp -a ../build/__rpg/language ../release/woodys/__rpg/
+cp -a ../build/__rpg/ui ../release/woodys/__rpg/
+cp -f ../build/woodys.nds ../release/woodys/ttmenu.dat
+cp -f ../dldi/tt_sd.dldi ../release/woodys/__rpg/tt_sd.dldi
+#cp -f ../static/woodys/ttloader.nds ../release/woodys/__rpg/ttloader.nds
+7z a -r ../release/woodys.7z ../release/woodys/*
+mv -f akmenu4/arm9/source/mainwnd.cpp.bak akmenu4/arm9/source/mainwnd.cpp
+#BUILD_WOODYS
 
 #__BUILD_GUI
 
-#: <<"#__BUILD_LOADER"
+: <<"#__BUILD_LOADER"
 
 cp -f ../patch/akloader_main_ils.cpp akloader/arm9/source/main.cpp
 cp -f ../patch/dldi.c akloader/arm9/source/dldi.c
@@ -269,7 +289,7 @@ make clean >/dev/null
 #__BUILD_LOADER
 
 
-#: <<"#__BUILD_RELEASE"
+: <<"#__BUILD_RELEASE"
 
 : <<"#RELEASE_RPG"
 mkdir -p ../release/woodrpg_mod/__rpg
