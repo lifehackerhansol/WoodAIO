@@ -54,17 +54,23 @@ cp -f ../patch/libunds_dldi_stub_16k.s libunds/source/arm9/dldi/dldi_stub.s
 
 #BUILD_WOODRPG_BASE
 
-: <<"#BUILD_WOODR4"
+#: <<"#BUILD_WOODR4"
 echo Building WoodR4 and WoodR4iDSN...
-make akmenu4/_DS_MENU.DAT akmenu4/_DSMENU.DAT >/dev/null
+make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodr4.nds
-cp -f akmenu4/_DSMENU.DAT ../build/woodr4idsn.nds
 make clean >/dev/null
 ../xenobox dldipatch ../build/__rpg/r4_sd.dldi ../build/woodr4.nds
-../xenobox dldipatch ../build/__rpg/r4idsn_sd.dldi ../build/woodr4idsn.nds
-../xenobox modifybanner ../build/woodr4.nds "Wood R4 mod;with autorunWithLastRom"
-../xenobox modifybanner ../build/woodr4idsn.nds "Wood R4idsn mod;with autorunWithLastRom"
+../xenobox modifybanner ../build/woodr4.nds "Wood R4 mod;external akloader"
 #BUILD_WOODR4
+
+: <<"#BUILD_WOODR4IDSN"
+echo Building WoodR4iDSN...
+make akmenu4/_DSMENU.DAT >/dev/null
+cp -f akmenu4/_DSMENU.DAT ../build/woodr4idsn.nds
+make clean >/dev/null
+../xenobox dldipatch ../build/__rpg/r4idsn_sd.dldi ../build/woodr4idsn.nds
+../xenobox modifybanner ../build/woodr4idsn.nds "Wood R4idsn mod;external akloader"
+#BUILD_WOODR4IDSN
 
 : <<"#BUILD_WOODR4SDHC"
 echo Building WoodR4sdhc...
@@ -275,22 +281,25 @@ cp -f ../build/__rpg/rpgloader.nds ../release/woodrpg_mod/__rpg/rpgloader.nds
 7z a -r ../release/woodrpg_mod.7z ../release/woodrpg_mod/*
 #RELEASE_RPG
 
-: <<"#RELEASE_R4"
+#: <<"#RELEASE_R4"
 mkdir -p ../release/woodr4/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4/__rpg/
 cp -a ../build/__rpg/ui ../release/woodr4/__rpg/
 r4denc ../build/woodr4.nds ../release/woodr4/_ds_menu.dat
+cp -f ../static/WoodR4/__rpg/r4loader.nds ../release/woodr4/__rpg/r4loader.nds
+7z a -r ../release/woodr4.7z ../release/woodr4/*
+#RELEASE_R4
+
+: <<"#RELEASE_R4IDSN"
 mkdir -p ../release/woodr4idsn/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4idsn/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4idsn/__rpg/
 cp -a ../build/__rpg/ui ../release/woodr4idsn/__rpg/
 cp -f ../build/woodr4idsn.nds ../release/woodr4idsn/_dsmenu.dat
-cp -f ../build/__rpg/r4loader.nds ../release/woodr4/__rpg/r4loader.nds
-7z a -r ../release/woodr4.7z ../release/woodr4/*
 cp -f ../build/__rpg/r4idsnloader.nds ../release/woodr4/__rpg/r4idsnloader.nds
 7z a -r ../release/woodr4idsn.7z ../release/woodr4idsn/*
-#RELEASE_R4
+#RELEASE_R4IDSN
 
 #: <<"#RELEASE_BL2CK"
 mkdir -p ../release/woodbl2ck/__rpg
