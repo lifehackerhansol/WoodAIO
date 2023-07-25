@@ -38,7 +38,7 @@ build/__rpg/ex4loader.nds (deprecated)
 	WoodR4 loader (DLDI-zed, for R4iLS/EX4DS)
 build/__rpg/ilsloader.nds (deprecated)
 	WoodR4 loader (DLDI-zed, for R4iLS)
-build/__rpg/m3loader_old.nds
+build/__rpg/m3loader_old.nds (deprecated)
 	WoodR4 loader (DLDI-zed, for M3Real/M3iZero)
 build/__rpg/r4lsloader.nds
 	R4_AK_Special loader
@@ -48,7 +48,8 @@ build/__rpg/rpgloader.nds
 	WoodRPG latest loader
 
 [proprietary loaders]
-build/__rpg/m3loader.nds (deprecated)
+build/__rpg/m3loader.nds
+	WoodM3 loader by lifehackerhansol (hex edited from ace3dsplusloader)
 build/__rpg/ttloader.nds (frontend: woodtt.nds)
 	WoodM3/WoodTT loader by toro
 build/__rpg/r4liloader.nds

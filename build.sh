@@ -228,7 +228,7 @@ cp -f ../patch/akloader_rpgmaps_nds.cpp akloader/arm9/source/rpgmaps.cpp
 
 # ex4loader was built here
 
-#: <<"#BUILD_M3LOADER"
+: <<"#BUILD_M3LOADER"
 echo Building m3loader.nds...
 cp -f ../patch/m3/*.bin akloader/arm9/data/r4/
 make akloader/akloader_r4.nds >/dev/null
@@ -322,7 +322,6 @@ cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
 cp -a ../build/__rpg/language ../release/woodm3/__rpg/
 cp -a ../build/__rpg/ui ../release/woodm3/__rpg/
 cp -f ../build/woodm3.nds ../release/woodm3/_system_/_sys_data/r4i.sys
-cp -f ../build/__rpg/m3loader.nds ../release/woodm3/__rpg/m3loader.nds
 cp -f ../dldi/m3ds.dldi ../release/woodm3/__rpg/m3_sd.dldi
 cp -a ../static/WoodM3/* ../release/woodm3/
 cp -a ../static/*.ini ../release/woodm3/__rpg/
