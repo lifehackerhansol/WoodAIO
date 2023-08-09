@@ -128,7 +128,7 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
     free(hed);
 
     char name[0x1005];
-    f = fopen("fat0:/ttmenu.sys", "r+b");
+    f = fopen("fat0:/ttmenu.sys", "wb");
     fseek(f, 0, SEEK_SET);
     fwrite("ttds",1,4,f);
 
@@ -151,10 +151,21 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
 
     ELM_Unmount();
 
-    // patch some ARM9
-    *((vu32*)(__NDSHeader->arm9executeAddress + 0xEC)) = 0xE3A00000; // mov r0, #0
-    *((vu32*)0x02FFFC20) = 0x5555AAAA; // ttpatch checks this for some reason
-    *((vu32*)0x02FFFC24) = -1; // force SDHC because libnds bad and it overwrites this
+    // patch a loop in ARM9
+    // not sure why it's there. Some sort of obfuscation mechanism?
+    if (*((vu32*)(__NDSHeader->arm9executeAddress + 0xEC)) == 0xEAFFFFFE) // b #0; bad
+        *((vu32*)(__NDSHeader->arm9executeAddress + 0xEC)) = 0xE3A00000; // mov r0, #0
+
+    // ttpatch checks this for some reason
+    *((vu32*)0x02FFFC20) = 0x5555AAAA;
+
+    // set SD/SDHC flag to SDHC, right now our DLDI only does SDHC
+    *((vu32*)0x02FFFC24) = ~0;
+
+    // this int seems to be a flag to reinitialize the SD card in ttpatch
+    // if this is *not* -1, ttpatch sends an SDIO CMD12 (STOP_TRANSMISSION)
+    // other frontends set this to -1 by default, so let's do it too
+    *((vu32*)0x02FFFC28) = ~0;
 
     resetAndLoop();
     return true;
