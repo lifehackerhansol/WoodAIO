@@ -190,14 +190,14 @@ cp -f ../patch/mainwnd_ys.cpp akmenu4/arm9/source/mainwnd.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodys.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/tt_sd.dldi ../build/woodys.nds
+../xenobox dldipatch ../dldi/ttio.dldi ../build/woodys.nds
 ../xenobox modifybanner ../build/woodys.nds "Wood YS;DSTT ttpatch wrapper"
 mkdir -p ../release/woodys/__rpg
 cp -a ../build/__rpg/fonts ../release/woodys/__rpg/
 cp -a ../build/__rpg/language ../release/woodys/__rpg/
 cp -a ../build/__rpg/ui ../release/woodys/__rpg/
 cp -f ../build/woodys.nds ../release/woodys/ttmenu.dat
-cp -f ../dldi/tt_sd.dldi ../release/woodys/__rpg/tt_sd.dldi
+cp -f ../dldi/ttio.dldi ../release/woodys/__rpg/tt_sd.dldi
 #cp -f ../static/woodys/ttloader.nds ../release/woodys/__rpg/ttloader.nds
 7z a -r ../release/woodys.7z ../release/woodys/*
 mv -f akmenu4/arm9/source/mainwnd.cpp.bak akmenu4/arm9/source/mainwnd.cpp
