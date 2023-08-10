@@ -35,6 +35,8 @@
 #endif
 
 #include "fatx.h"
+#include "progresswnd.h"
+#include <unistd.h>
 
 static void resetAndLoop()
 {
@@ -63,7 +65,6 @@ bool loadRom( const std::string & filename, u32 flags, long cheatOffset,size_t c
 bool loadRom( const std::string & filename, const std::string & savename, u32 flags, long cheatOffset,size_t cheatSize )
 #endif
 {
-    FILE    *f = NULL;
 	FILE	*ldr = NULL;
     u32 gameCode = 0;
     tNDSHeader* hed = (tNDSHeader*)malloc(sizeof(tNDSHeader));
@@ -108,10 +109,10 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
 #if defined(_STORAGE_rpg)
 	ldr = fopen("fat0:/__rpg/rpgloader.nds", "rb");
 #elif defined(_STORAGE_r4)
-    f = fopen(filename.c_str(), "rb");
-    fseek(f, 0xC, SEEK_SET);
-    fread(&gameCode, 1, 4, f);
-    fclose(f);
+    FILE* ROMFile = fopen(filename.c_str(), "rb");
+    fseek(ROMFile, 0xC, SEEK_SET);
+    fread(&gameCode, 1, 4, ROMFile);
+    fclose(ROMFile);
     if(gameCode == 0x23232323) ldr = fopen("fat0:/TTMenu/ttdldi.dat", "rb");
     else ldr = fopen("fat0:/TTMenu/ttpatch.dat", "rb");
 #endif
@@ -127,27 +128,40 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
     memcpy((void*)__NDSHeader, hed, sizeof(tNDSHeader));
     free(hed);
 
-    char name[0x1005];
-    f = fopen("fat0:/ttmenu.sys", "wb");
-    fseek(f, 0, SEEK_SET);
-    fwrite("ttds",1,4,f);
+    if(access("fat0:/ttmenu.sys", F_OK) != 0) {
+        progressWnd().setTipText("Generating TTMENU.SYS...");
+        progressWnd().show();
+        progressWnd().setPercent(0);
+        FILE* TTSYSCreate = fopen("fat0:/ttmenu.sys", "wb");
+        fseek(TTSYSCreate, 0, SEEK_SET);
+        fwrite((void*)0x02400000, 0x400000, 1, TTSYSCreate);
+        fflush(TTSYSCreate);
+        fclose(TTSYSCreate);
+        progressWnd().setPercent(100);
+        progressWnd().hide();
+    }
 
-    fseek(f,0x100,SEEK_SET);
+    char name[0x1005];
+    FILE* TTSYSFile = fopen("fat0:/ttmenu.sys", "r+b");
+    fseek(TTSYSFile, 0, SEEK_SET);
+    fwrite("ttds",1,4,TTSYSFile);
+
+    fseek(TTSYSFile,0x100,SEEK_SET);
     memset(name,0,0x1005);
     getsfnlfn(filename.c_str(),name, NULL);
-    fwrite(name+5,1,strlen(name) - 4,f);
+    fwrite(name+5,1,strlen(name) - 4,TTSYSFile);
 
-    fseek(f,0x1100,SEEK_SET);
+    fseek(TTSYSFile,0x1100,SEEK_SET);
     memset(name,0,0x1006);
     getsfnlfn(savename.c_str(),name, NULL);
-    fwrite(name+5,1,strlen(name) - 4,f);
+    fwrite(name+5,1,strlen(name) - 4,TTSYSFile);
 
-    fseek(f,0x2100,SEEK_SET);
+    fseek(TTSYSFile,0x2100,SEEK_SET);
     memset(name,0,0x1006);
     strcpy(name,"/"); // Cheat file, not written for now
-    fwrite(name,1,2,f);
-    fflush(f);
-    fclose(f);
+    fwrite(name,1,2,TTSYSFile);
+    fflush(TTSYSFile);
+    fclose(TTSYSFile);
 
     ELM_Unmount();
 
