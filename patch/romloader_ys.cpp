@@ -36,6 +36,7 @@
 
 #include "fatx.h"
 #include "progresswnd.h"
+#include "../../../akloader/share/flags.h"
 #include <unistd.h>
 
 static void resetAndLoop()
@@ -58,6 +59,18 @@ static void resetAndLoop()
 
     swiSoftReset();
 }
+
+// TODO: what are the unknowns?
+// YSMenu doesn't seem to manipulate them
+typedef struct {
+    char TTSYSMagic[4];
+    u32 unk1;
+    u32 softReset;
+    u32 useCheats;
+    u32 unk2;
+    u32 DMA;
+    u8 reserved[232];
+} PACKED TTSYSHeader;
 
 #if defined(_STORAGE_rpg)
 bool loadRom( const std::string & filename, u32 flags, long cheatOffset,size_t cheatSize )
@@ -141,24 +154,34 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
         progressWnd().hide();
     }
 
-    char name[0x1005];
+    TTSYSHeader* ttsys_header = (TTSYSHeader* ) malloc(sizeof(TTSYSHeader));
+    ttsys_header->TTSYSMagic = {'t', 't', 'd', 's'};
+    ttsys_header->unk1 = 0;
+    ttsys_header->softReset = flags & PATCH_SOFT_RESET ? 1 : 0;
+    //ttsys_header->useCheats = flags & PATCH_CHEATS ? 1 : 0;
+    ttsys_header->useCheats = 0; // cheats untested for now
+    ttsys_header->unk2 = 0;
+    ttsys_header->DMA = flags & PATCH_DMA ? 1 : 0;
+
     FILE* TTSYSFile = fopen("fat0:/ttmenu.sys", "r+b");
     fseek(TTSYSFile, 0, SEEK_SET);
-    fwrite("ttds",1,4,TTSYSFile);
+    fwrite(ttsys_header, sizeof(TTSYSHeader), 1, TTSYSFile);
+    free(ttsys_header);
 
-    fseek(TTSYSFile,0x100,SEEK_SET);
+    char name[0x1005];
     memset(name,0,0x1005);
     getsfnlfn(filename.c_str(),name, NULL);
+    fseek(TTSYSFile,0x100,SEEK_SET);
     fwrite(name+5,1,strlen(name) - 4,TTSYSFile);
 
-    fseek(TTSYSFile,0x1100,SEEK_SET);
     memset(name,0,0x1006);
     getsfnlfn(savename.c_str(),name, NULL);
+    fseek(TTSYSFile,0x1100,SEEK_SET);
     fwrite(name+5,1,strlen(name) - 4,TTSYSFile);
 
-    fseek(TTSYSFile,0x2100,SEEK_SET);
     memset(name,0,0x1006);
     strcpy(name,"/"); // Cheat file, not written for now
+    fseek(TTSYSFile,0x2100,SEEK_SET);
     fwrite(name,1,2,TTSYSFile);
     fflush(TTSYSFile);
     fclose(TTSYSFile);
