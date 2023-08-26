@@ -125,15 +125,15 @@ cp -f ../static/WoodTT/ttloader.nds ../release/woodtt/__rpg/ttloader.nds
 7z a -r ../release/woodtt.7z ../release/woodtt/*
 #BUILD_WOODTT
 
-#: <<"#BUILD_WOODBL2CK"
-echo Building WoodBL2CK...
-cp -f ../patch/romloader_bl2ck.cpp akmenu4/arm9/source/romloader.cpp
+#: <<"#BUILD_WOODAK2"
+echo Building WoodAK2...
+cp -f ../patch/romloader_ak2.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
-cp -f akmenu4/akmenu4_r4.nds ../build/woodbl2ck.nds
+cp -f akmenu4/akmenu4_r4.nds ../build/woodak2.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/ak2_sd.dldi ../build/woodbl2ck.nds
-../xenobox modifybanner ../build/woodbl2ck.nds "Wood BL2CK;with autorunWithLastRom"
-#BUILD_WOODBL2CK
+../xenobox dldipatch ../dldi/ak2_sd.dldi ../build/woodak2.nds
+../xenobox modifybanner ../build/woodak2.nds "Wood AK2;AK2 infolib support"
+#BUILD_WOODAK2
 
 #: <<"#BUILD_WOODR4Li"
 echo Building WoodR4Li...
@@ -301,18 +301,29 @@ cp -f ../static/WoodR4iDSN/__rpg/r4idsnloader.nds ../release/woodr4idsn/__rpg/r4
 7z a -r ../release/woodr4idsn.7z ../release/woodr4idsn/*
 #RELEASE_R4IDSN
 
-#: <<"#RELEASE_BL2CK"
-mkdir -p ../release/woodbl2ck/__rpg
-cp -a ../build/__rpg/fonts ../release/woodbl2ck/__rpg/
-cp -a ../build/__rpg/language ../release/woodbl2ck/__rpg/
-cp -a ../build/__rpg/ui ../release/woodbl2ck/__rpg/
-cp -f ../build/woodbl2ck.nds ../release/woodbl2ck/akmenu4.nds
-cp -f ../dldi/ak2_sd.dldi ../release/woodbl2ck/__rpg/r4isd.dldi
-cp -a ../static/BL2CK/* ../release/woodbl2ck/
-cp -a ../static/*.ini ../release/woodbl2ck/__rpg/
-cp -f ../static/savelist.bin ../release/woodbl2ck/__rpg/savelist.bin
-7z a -r ../release/woodbl2ck.7z ../release/woodbl2ck/*
-#RELEASE_BL2CK
+#: <<"#RELEASE_AK2"
+mkdir -p ../release/woodak2info/__rpg
+cp -a ../build/__rpg/fonts ../release/woodak2info/__rpg/
+cp -a ../build/__rpg/language ../release/woodak2info/__rpg/
+cp -a ../build/__rpg/ui ../release/woodak2info/__rpg/
+cp -f ../build/woodak2.nds ../release/woodak2info/akmenu4.nds
+cp -f ../dldi/ak2_sd.dldi ../release/woodak2info/__rpg/ak2sd.dldi
+cp -a ../static/WoodAK2Info/* ../release/woodak2info/
+cp -a ../static/*.ini ../release/woodak2info/__rpg/
+cp -f ../static/savelist.bin ../release/woodak2info/__rpg/savelist.bin
+7z a -r ../release/woodak2info.7z ../release/woodak2info/*
+mkdir -p ../release/woodak2mix/__rpg
+cp -a ../build/__rpg/fonts ../release/woodak2mix/__rpg/
+cp -a ../build/__rpg/language ../release/woodak2mix/__rpg/
+cp -a ../build/__rpg/ui ../release/woodak2mix/__rpg/
+cp -f ../build/woodak2.nds ../release/woodak2mix/akmenu4.nds
+../xenobox modifybanner ../release/woodak2mix/akmenu4.nds "Wood AK2;AK2 mixinfo support"
+cp -f ../dldi/ak2_sd.dldi ../release/woodak2mix/__rpg/ak2sd.dldi
+cp -a ../static/WoodAK2Mix/* ../release/woodak2mix/
+cp -a ../static/*.ini ../release/woodak2mix/__rpg/
+cp -f ../static/savelist.bin ../release/woodak2mix/__rpg/savelist.bin
+7z a -r ../release/woodak2mix.7z ../release/woodak2mix/*
+#RELEASE_AK2
 
 #: <<"#RELEASE_M3"
 echo Archiving WoodM3...

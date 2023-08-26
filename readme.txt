@@ -243,9 +243,13 @@ continue by lifehackerhansol:
 - r4liloader was slightly changed to also create a Gateway Blue loader.
 - ex4loader and ilsloader are deprecated. They work fine with the r4liloader. 
 	- If woodrpg ever gets better compatibility maybe this will be reverted.
-- ak2loader replaced with BL2CK loader (and add missing files). 
-	- DATs updated to BL2CK latest dats (can't use RGFs because of redistrib license. yeah...)
+- ak2loader updates:
+	- r1 -> r4isdhc.com 1.52
+	- r2 -> r4isdhc.hk 1.72
+	- Naming slightly changed; now there are separate releases for r1 and r2, named WoodAK2Info and WoodAK2Mix respectively.
+	- Updated infolib/extinfo pulled from BL2CK's website (can't use RGFs because of redistrib license. yeah...)
+	- Updated mixinfo from r4isdhc.hk 1.72.
 - default savelist.bin attached (from AKAIO 1.9.0)
 - m3loader proprietary is dropped in favour of patched m3loader, as it actually works better.
-- BL2CK is found to support the AK2i. So just cp `_DS_MENU.DAT` to `akmenu4.nds` to make it work.
-	- woodrpg_ak2i is dropped in favour of this
+- ak2loader is found to support the actual AK2i. So just cp `_DS_MENU.DAT` to `akmenu4.nds` to make it work.
+	- woodrpg_ak2i is dropped in favour of this; AKAIO has been heavily encrypted since forever and it's not worth the task to reverse it.
