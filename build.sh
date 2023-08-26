@@ -141,7 +141,7 @@ cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
 cp -f akmenu4/akmenu4_r4.nds ../build/woodace3dsplus.nds
 make clean >/dev/null
-../xenobox dldipatch ../dldi/r4li_sd.dldi ../build/woodace3dsplus.nds
+../xenobox dldipatch ../dldi/ace3ds_sd.dldi ../build/woodace3dsplus.nds
 ../xenobox modifybanner ../build/woodace3dsplus.nds "Wood R4li;with autorunWithLastRom"
 cp -f ../build/woodace3dsplus.nds ../build/woodr4li.nds
 ../xenobox binreplace ../build/woodr4li.nds "_ds_menu.dat" "_dsmenu.dat/x00"
@@ -308,6 +308,7 @@ cp -a ../build/__rpg/language ../release/woodak2info/__rpg/
 cp -a ../build/__rpg/ui ../release/woodak2info/__rpg/
 cp -f ../build/woodak2.nds ../release/woodak2info/akmenu4.nds
 cp -f ../dldi/ak2_sd.dldi ../release/woodak2info/__rpg/ak2sd.dldi
+cp -a ../static/WoodAK2-common/* ../release/woodak2info/
 cp -a ../static/WoodAK2Info/* ../release/woodak2info/
 cp -a ../static/*.ini ../release/woodak2info/__rpg/
 cp -f ../static/savelist.bin ../release/woodak2info/__rpg/savelist.bin
@@ -319,6 +320,7 @@ cp -a ../build/__rpg/ui ../release/woodak2mix/__rpg/
 cp -f ../build/woodak2.nds ../release/woodak2mix/akmenu4.nds
 ../xenobox modifybanner ../release/woodak2mix/akmenu4.nds "Wood AK2;AK2 mixinfo support"
 cp -f ../dldi/ak2_sd.dldi ../release/woodak2mix/__rpg/ak2sd.dldi
+cp -a ../static/WoodAK2-common/* ../release/woodak2mix/
 cp -a ../static/WoodAK2Mix/* ../release/woodak2mix/
 cp -a ../static/*.ini ../release/woodak2mix/__rpg/
 cp -f ../static/savelist.bin ../release/woodak2mix/__rpg/savelist.bin
@@ -328,11 +330,10 @@ cp -f ../static/savelist.bin ../release/woodak2mix/__rpg/savelist.bin
 #: <<"#RELEASE_M3"
 echo Archiving WoodM3...
 mkdir -p ../release/woodm3/__rpg
-mkdir -p ../release/woodm3/_system_/_sys_data
 cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
 cp -a ../build/__rpg/language ../release/woodm3/__rpg/
 cp -a ../build/__rpg/ui ../release/woodm3/__rpg/
-cp -f ../build/woodm3.nds ../release/woodm3/_system_/_sys_data/r4i.sys
+cp -f ../build/woodm3.nds ../release/woodm3/akmenu4.nds
 cp -f ../dldi/m3ds.dldi ../release/woodm3/__rpg/m3_sd.dldi
 cp -a ../static/WoodM3/* ../release/woodm3/
 cp -a ../static/*.ini ../release/woodm3/__rpg/
@@ -350,14 +351,14 @@ cp -a ../static/*.ini ../release/woodr4li/__rpg/
 cp -f ../static/savelist.bin ../release/woodr4li/__rpg/savelist.bin
 cp -a ../static/Ace3DSPlus/* ../release/woodr4li/
 cp -a ../static/R4Li/* ../release/woodr4li/
-cp -f ../dldi/ex4tf.dldi ../release/woodr4li/__rpg/game.dldi
+cp -f ../dldi/ace3ds_sd.dldi ../release/woodr4li/__rpg/game.dldi
 cp -a ../build/__rpg/fonts ../release/woodgateway/__rpg/
 cp -a ../build/__rpg/language ../release/woodgateway/__rpg/
 cp -a ../build/__rpg/ui ../release/woodgateway/__rpg/
 cp -a ../static/*.ini ../release/woodgateway/__rpg/
 cp -f ../static/savelist.bin ../release/woodgateway/__rpg/savelist.bin
 cp -a ../static/R4Li/* ../release/woodgateway/
-cp -f ../dldi/ex4tf.dldi ../release/woodgateway/__rpg/game.dldi
+cp -f ../dldi/ace3ds_sd.dldi ../release/woodgateway/__rpg/game.dldi
 r4denc -k 0x4002 ../build/woodace3dsplus.nds ../release/woodr4li/_ds_menu.dat
 ../xenobox binreplace ../build/woodr4li.nds "/x2E/x00/x00/xEA" "R4XX"
 r4denc -k 0x4002 ../build/woodr4li.nds ../release/woodr4li/_dsmenu.dat
