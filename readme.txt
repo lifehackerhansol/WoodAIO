@@ -26,8 +26,12 @@ build/woodrpg_ak2i.nds (deprecated)
 	WoodR4 which loads /akloader.nds (please prepare from akextract or AKAIO 1.6RC2)
 build/woodrpg_mod.nds
 	WoodRPG patched (use rpgloader.nds from official WoodRPG)
-build/woodbl2ck.nds
-	WoodR4 which loads bl2ckloader.nds (AK2i and R4iTT 3DS Clones)
+build/woodak2info.nds
+	WoodR4 which loads ak2loader.nds (AK2i and R4iTT 3DS Clones)
+	- infolib version
+build/woodak2mix.nds
+	WoodR4 which loads ak2loader.nds (AK2i and R4iTT 3DS Clones)
+	- mixinfo version
 
 build/__rpg/*.nds loaders (loaders has a little different protocol so can be used only from appropriate GUI)
 build/__rpg/r4loader.nds
@@ -54,8 +58,8 @@ build/__rpg/ttloader.nds (frontend: woodtt.nds)
 	WoodM3/WoodTT loader by toro
 build/__rpg/r4liloader.nds
 	R4iLS loader (frontend: woodr4li.nds)
-build/__rpg/bl2ckloader.nds
-	BL2CK loader (extracted from some R4iTT clone kernel) 
+build/__rpg/ak2loader.nds
+	AK2 loader (extracted from some R4iTT kernsl, 1.52 and 1.72) 
 	- Works on AK2i and R4iTT 3DS Clones
 
 [History]
