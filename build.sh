@@ -135,6 +135,16 @@ make clean >/dev/null
 ../xenobox modifybanner ../build/woodak2.nds "Wood AK2;AK2 infolib support"
 #BUILD_WOODAK2
 
+#: <<"#BUILD_WOOD4TT"
+echo Building Wood4TT...
+cp -f ../patch/romloader_w4tt.cpp akmenu4/arm9/source/romloader.cpp
+make akmenu4/_DS_MENU.DAT >/dev/null
+cp -f akmenu4/akmenu4_r4.nds ../build/wood4tt.nds
+make clean >/dev/null
+../xenobox dldipatch ../dldi/ttio.dldi ../build/wood4tt.nds
+../xenobox modifybanner ../build/wood4tt.nds "Wood4TT;for DSTT"
+#BUILD_WOODAK2
+
 #: <<"#BUILD_WOODR4Li"
 echo Building WoodR4Li...
 cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
@@ -326,6 +336,19 @@ cp -a ../static/*.ini ../release/woodak2mix/__rpg/
 cp -f ../static/savelist.bin ../release/woodak2mix/__rpg/savelist.bin
 7z a -r ../release/woodak2mix.7z ../release/woodak2mix/*
 #RELEASE_AK2
+
+#: <<"#RELEASE_W4TT"
+mkdir -p ../release/wood4tt/__rpg
+cp -a ../build/__rpg/fonts ../release/wood4tt/__rpg/
+cp -a ../build/__rpg/language ../release/wood4tt/__rpg/
+cp -a ../build/__rpg/ui ../release/wood4tt/__rpg/
+cp -f ../build/wood4tt.nds ../release/wood4tt/ttmenu.dat
+cp -f ../build/wood4tt.nds ../release/wood4tt/r4.dat
+cp -f ../dldi/ttio.dldi ../release/wood4tt/__rpg/ttio.dldi
+cp -f ../static/WoodAK2Info/__rpg/infolib.dat ../release/wood4tt/__rpg/infolib.dat
+cp -a ../static/Wood4TT/* ../release/wood4tt/
+7z a -r ../release/wood4tt.7z ../release/wood4tt/*
+#RELEASE_W4TT
 
 #: <<"#RELEASE_M3"
 echo Archiving WoodM3...
