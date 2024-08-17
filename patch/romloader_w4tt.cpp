@@ -35,8 +35,10 @@
 #endif
 
 // non-woodrpg headers
-#include <unistd.h>
+#include "fatx.h"
 #include "progresswnd.h"
+#include "../../../akloader/share/flags.h"
+#include <unistd.h>
 
 static void resetAndLoop()
 {
@@ -59,6 +61,18 @@ static void resetAndLoop()
     swiSoftReset();
 }
 
+// TODO: what are the unknowns?
+// YSMenu doesn't seem to manipulate them
+typedef struct {
+    char TTSYSMagic[4];
+    u32 unk1;
+    u32 softReset;
+    u32 useCheats;
+    u32 unk2;
+    u32 DMA;
+    u8 reserved[232];
+} PACKED TTSYSHeader;
+
 #if defined(_STORAGE_rpg)
 bool loadRom( const std::string & filename, u32 flags, long cheatOffset,size_t cheatSize )
 #elif defined(_STORAGE_r4) || defined(_STORAGE_ak2i) || defined(_STORAGE_r4idsn)
@@ -68,7 +82,6 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
 	u32	hed[16];
 	u8	*ldrBuf;
 	FILE	*ldr=NULL;
-	FILE	*TTSYSFile=NULL;
 
 #if defined(_STORAGE_rpg)
 	ldr = fopen("fat0:/__rpg/rpgloader.nds", "rb");
@@ -94,12 +107,12 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
         progressWnd().setTipText("Generating SYSTEM.SYS...");
         progressWnd().show();
         progressWnd().setPercent(0);
-        TTSYSFile = fopen("fat0:/system.sys", "wb");
-        fseek(TTSYSFile, 0, SEEK_SET);
+        FILE *TTSYSCreate = fopen("fat0:/system.sys", "wb");
+        fseek(TTSYSCreate, 0, SEEK_SET);
         // memdump. Actually just expanding the file seems to crash, but this works totally fine...
-        fwrite((void*)0x02400000, 0x400000, 1, TTSYSFile);
-        fflush(TTSYSFile);
-        fclose(TTSYSFile);
+        fwrite((void*)0x02400000, 0x400000, 1, TTSYSCreate);
+        fflush(TTSYSCreate);
+        fclose(TTSYSCreate);
         progressWnd().setPercent(100);
         progressWnd().hide();
     }
@@ -119,12 +132,39 @@ bool loadRom( const std::string & filename, const std::string & savename, u32 fl
     address+=sizeof(u32);
     ioRpgWriteSram( address, &cheatSize, sizeof(cheatSize) );
 #elif defined(_STORAGE_r4) || defined(_STORAGE_ak2i) || defined(_STORAGE_r4idsn)
-    *(u32*)0x23fd900=flags;
-    *(u32*)0x23fd904=cheatOffset;
-    *(u32*)0x23fd908=cheatSize;
-    memset((void*)0x23fda00,0,MAX_FILENAME_LENGTH*2);
-    strcpy((char*)0x23fda00,filename.c_str());
-    strcpy((char*)(0x23fda00+MAX_FILENAME_LENGTH),savename.c_str());
+
+    TTSYSHeader* ttsys_header = (TTSYSHeader* ) malloc(sizeof(TTSYSHeader));
+    ttsys_header->TTSYSMagic = {'t', 't', 'd', 's'};
+    ttsys_header->unk1 = 0;
+    ttsys_header->softReset = flags & PATCH_SOFT_RESET ? 1 : 0;
+    //ttsys_header->useCheats = flags & PATCH_CHEATS ? 1 : 0;
+    ttsys_header->useCheats = 0; // cheats untested for now
+    ttsys_header->unk2 = 0;
+    ttsys_header->DMA = flags & PATCH_DMA ? 1 : 0;
+
+    FILE* TTSYSFile = fopen("fat0:/system.sys", "r+b");
+    fseek(TTSYSFile, 0, SEEK_SET);
+    fwrite(ttsys_header, sizeof(TTSYSHeader), 1, TTSYSFile);
+    free(ttsys_header);
+
+    char name[0x1005];
+    memset(name,0,0x1005);
+    getsfnlfn(filename.c_str(),name, NULL);
+    fseek(TTSYSFile,0x100,SEEK_SET);
+    fwrite(name+5,1,strlen(name) - 4,TTSYSFile);
+
+    memset(name,0,0x1006);
+    getsfnlfn(savename.c_str(),name, NULL);
+    fseek(TTSYSFile,0x1100,SEEK_SET);
+    fwrite(name+5,1,strlen(name) - 4,TTSYSFile);
+
+    memset(name,0,0x1006);
+    strcpy(name,"/"); // Cheat file, not written for now
+    fseek(TTSYSFile,0x2100,SEEK_SET);
+    fwrite(name,1,2,TTSYSFile);
+    fflush(TTSYSFile);
+    fclose(TTSYSFile);
+
 #endif
 /*
     dbg_printf( "load %s\n", filename.c_str() );

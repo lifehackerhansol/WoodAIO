@@ -63,7 +63,7 @@ make clean >/dev/null
 ../xenobox modifybanner ../build/woodr4.nds "Wood R4 mod;external akloader"
 #BUILD_WOODR4
 
-#: <<"#BUILD_WOODR4IDSN"
+: <<"#BUILD_WOODR4IDSN"
 echo Building WoodR4iDSN...
 make akmenu4/_DSMENU.DAT >/dev/null
 cp -f akmenu4/_DSMENU.DAT ../build/woodr4idsn.nds
@@ -125,7 +125,7 @@ cp -f ../static/WoodTT/ttloader.nds ../release/woodtt/__rpg/ttloader.nds
 7z a -r ../release/woodtt.7z ../release/woodtt/*
 #BUILD_WOODTT
 
-#: <<"#BUILD_WOODAK2"
+: <<"#BUILD_WOODAK2"
 echo Building WoodAK2...
 cp -f ../patch/romloader_ak2.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
@@ -145,7 +145,7 @@ make clean >/dev/null
 ../xenobox modifybanner ../build/wood4tt.nds "Wood4TT;for DSTT"
 #BUILD_WOODAK2
 
-#: <<"#BUILD_WOODR4Li"
+: <<"#BUILD_WOODR4Li"
 echo Building WoodR4Li...
 cp -f ../patch/romloader_r4li.cpp akmenu4/arm9/source/romloader.cpp
 make akmenu4/_DS_MENU.DAT >/dev/null
@@ -159,7 +159,7 @@ cp -f ../build/woodace3dsplus.nds ../build/woodr4li.nds
 cp -f ../build/woodr4li.nds ../build/woodgateway.nds
 #BUILD_WOODR4Li
 
-#: <<"#BUILD_WOODM3"
+: <<"#BUILD_WOODM3"
 echo Building WoodM3...
 cp -f ../patch/romloader_m3.cpp akmenu4/arm9/source/romloader.cpp
 cp -f akmenu4/arm9/source/mainwnd.cpp akmenu4/arm9/source/mainwnd.cpp.bak
@@ -195,7 +195,7 @@ cp -a ../static/R4LS/* ../release/woodr4ls/
 
 #__BUILD_GUI
 
-#: <<"#__BUILD_LOADER"
+: <<"#__BUILD_LOADER"
 
 cp -f ../patch/akloader_main_ils.cpp akloader/arm9/source/main.cpp
 cp -f ../patch/dldi.c akloader/arm9/source/dldi.c
@@ -291,7 +291,7 @@ cp -f ../build/__rpg/rpgloader.nds ../release/woodrpg_mod/__rpg/rpgloader.nds
 7z a -r ../release/woodrpg_mod.7z ../release/woodrpg_mod/*
 #RELEASE_RPG
 
-#: <<"#RELEASE_R4"
+: <<"#RELEASE_R4"
 mkdir -p ../release/woodr4/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4/__rpg/
@@ -301,7 +301,7 @@ cp -f ../static/WoodR4/__rpg/r4loader.nds ../release/woodr4/__rpg/r4loader.nds
 7z a -r ../release/woodr4.7z ../release/woodr4/*
 #RELEASE_R4
 
-#: <<"#RELEASE_R4IDSN"
+: <<"#RELEASE_R4IDSN"
 mkdir -p ../release/woodr4idsn/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4idsn/__rpg/
 cp -a ../build/__rpg/language ../release/woodr4idsn/__rpg/
@@ -311,7 +311,7 @@ cp -f ../static/WoodR4iDSN/__rpg/r4idsnloader.nds ../release/woodr4idsn/__rpg/r4
 7z a -r ../release/woodr4idsn.7z ../release/woodr4idsn/*
 #RELEASE_R4IDSN
 
-#: <<"#RELEASE_AK2"
+: <<"#RELEASE_AK2"
 mkdir -p ../release/woodak2info/__rpg
 cp -a ../build/__rpg/fonts ../release/woodak2info/__rpg/
 cp -a ../build/__rpg/language ../release/woodak2info/__rpg/
@@ -350,7 +350,7 @@ cp -a ../static/Wood4TT/* ../release/wood4tt/
 7z a -r ../release/wood4tt.7z ../release/wood4tt/*
 #RELEASE_W4TT
 
-#: <<"#RELEASE_M3"
+: <<"#RELEASE_M3"
 echo Archiving WoodM3...
 mkdir -p ../release/woodm3/__rpg
 cp -a ../build/__rpg/fonts ../release/woodm3/__rpg/
@@ -364,7 +364,7 @@ cp -a ../static/savelist.bin ../release/woodm3/__rpg/
 7z a -r ../release/woodm3.7z ../release/woodm3/*
 #RELEASE_M3
 
-#: <<"#RELEASE_WOODR4LI"
+: <<"#RELEASE_WOODR4LI"
 mkdir -p ../release/woodr4li/__rpg
 mkdir -p ../release/woodgateway/__rpg
 cp -a ../build/__rpg/fonts ../release/woodr4li/__rpg/
